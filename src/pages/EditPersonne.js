@@ -1,6 +1,6 @@
 import React, {useState } from "react";
 import "./EditPersonne.css"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, InputGroup, Row } from 'react-bootstrap';
@@ -13,22 +13,19 @@ export default function EditPersonne(){
         const [commune, setCommune] = useState("")
         const [quartier, setQuartier] = useState("")
 
+        const navigate = useNavigate()
 
-        const handleSubmit = async () =>{
-                try{
-                        await axios.post("http://localhost:3000/personne/ajout",{
-                                NOM : nom,
-                                PRENOM : prenom,
-                                TEL:telephone,
-                                PROVINCE:province,
-                                COMMUNE: commune ,
-                                QUARTIER:quartier
-                        });
-                }
-                catch(error){
-                        console.log(error)
-                }
-                setTimeout(()=>("/"), 500)
+
+        const handleSubmit = () =>{
+                axios.post('http://localhost:3000/personne/ajout', {
+                        NOM: nom,
+                        PRENOM: prenom,
+                        TEL: telephone,
+                        PROVINCE: province,
+                        COMMUNE: commune,
+                        QUARTIER: quartier
+                })
+                navigate('/')
         }
         
        
