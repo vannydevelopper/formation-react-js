@@ -87,7 +87,7 @@ export default function ModificationPersonne() {
                                         </Form.Group>
                                 </Row>
                                 <Row className="mb-3">
-                                        <button type="submit" onClick={editSubmit} className="me-4 btn btn-success btn-lg btn-block">Modifier</button>
+                                        <button type="button" onClick={editSubmit} className="me-4 btn btn-success btn-lg btn-block">Modifier</button>
                                 </Row>
                         </form>
                 </div>

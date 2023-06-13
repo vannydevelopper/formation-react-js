@@ -67,7 +67,7 @@ export default function EditPersonne(){
                         </Row>
                         <Row className="mb-3">
                                 <Form.Group controlId="formGridCheckbox" className="col col-sm-6">
-                                        <button type="submit" onClick={handleSubmit} className="me-4 btn btn-success btn-lg btn-block">Enregistrer</button>
+                                        <button type="buttton" onClick={handleSubmit} className="me-4 btn btn-success btn-lg btn-block">Enregistrer</button>
                                         <Link to="/">
                                                 <button type="submit" className="me-4 btn btn-success btn-lg btn-block">Go back</button>
                                         </Link>
