@@ -34,7 +34,7 @@ export default function CarteMap() {
 
         return (
                 <div>
-                        <div className="sidebar">
+                        <div>
                                 Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
                         </div>
                         <div ref={mapContainer} className="map-container" />
