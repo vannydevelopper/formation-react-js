@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./EditPersonne.css"
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios"
+// import axios from "axios"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Form, InputGroup, Row, Modal, Button } from 'react-bootstrap';
 //theme
@@ -17,7 +17,7 @@ import { Dropdown } from 'primereact/dropdown';
 export default function EditPersonne() {
         const [nom, setNom] = useState("")
         const [prenom, setPrenom] = useState("")
-        // const [date, setDate] = useState("")
+        const [date, setDate] = useState("")
         const [lieuNaissance, setLieuNaissance] = useState("")
         const [nomPere, setNomPere] = useState("")
         const [nomMere, setNomMere] = useState("")
@@ -65,17 +65,44 @@ export default function EditPersonne() {
 
         const navigate = useNavigate()
 
-
-        const handleSubmit = () => {
-                axios.post('http://localhost:3000/personne/ajout', {
-                        // NOM: nom,
-                        // PRENOM: prenom,
-                        // TEL: telephone,
-                        // PROVINCE: province,
-                        // COMMUNE: commune,
-                        // QUARTIER: quartier
-                })
-                navigate('/')
+        const handleSubmit = async () => {
+                try{
+                        const userData = await fetchApi("/auth/users", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                        NOM: nom,
+                                        // CODE_REQUERANT: 45,
+                                        PRENOM: prenom,
+                                        DATE_NAISSANCE: date,
+                                        LIEU_NAISSANCE: lieuNaissance,
+                                        NOM_PERE: nomPere,
+                                        NOM_MERE: nomMere,
+                                        NATIONALITE: nationalite,
+                                        CNI: cni,
+                                        TYPE_CNI: 5646,
+                                        STATUS: 1,
+                                        // ID_ECOLE_THEORIE,
+                                        // ID_ECOLE_PRATIQUE,
+                                        // EMPRUNTE_CODE,
+                                        // APTITUDE_PHYSIQUE,
+                                        TYPE_DEMANDE_PERMIS: selectedTypesDemandes.ID_TYPE_DEMANDE_PERMIS,
+                                        // ATTESTATION_PERTE,
+                                        // LETTRE_SOUS_COUVERT,
+                                        PROVINCE_ID: selectedProvinces.PROVINCE_ID,
+                                        COMMUNE_ID: selectedCommunes.COMMUNE_ID,
+                                        ZONE_ID: selectedZones.ZONE_ID,
+                                        COLLINE_ID: selectedCollines.COLLINE_ID,
+                                        EMAIL: email,
+                                        TELEPHONE: telephone
+                                }),
+        
+                        });
+                        navigate('/')
+                }catch(error){
+                        console.log(error)
+                }
+        
         }
 
         useEffect(() => {
@@ -170,7 +197,7 @@ export default function EditPersonne() {
                                                 <Row className="mb-3">
                                                         <Form.Group controlId="formBasicEmail" className="col col-sm-6">
                                                                 <Form.Label>Date de naissance </Form.Label>
-                                                                <Form.Control type="name" name="province" placeholder="Tapez votre province" className="form-control" />
+                                                                <Form.Control type="name" name="province" placeholder="Tapez votre province" value={date} onChange={e => setDate(e.target.value)} className="form-control" />
                                                         </Form.Group>
                                                         <Form.Group controlId="formBasicEmail" className="col col-sm-6">
                                                                 <Form.Label>Lieu de naissance</Form.Label>

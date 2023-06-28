@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import axios from "axios"
 import "./Home.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,15 +9,10 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 
 
-// import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { fetchApi } from "./helpers/fetchApi"
 
-// import { Button } from 'primereact/button';
-// import { RadioButton } from "primereact/radiobutton";
-// import { Calendar } from 'primereact/calendar';
-
-// react-bootstrap components
 import {
         Card,
         Container,
@@ -27,24 +22,21 @@ import {
 import { Link } from "react-router-dom";
 
 export default function Home() {
-        // const [personnes, setPersonne] = useState([])
+        const [allRequerants, setAllRequerants] = useState([])
+        console.log(allRequerants)
 
-        // const allData = async () => {
-        //         const response = await axios.get("http://localhost:3000/personne");
-        //         setPersonne(response.data)
-        // }
+        useEffect(() => {
+                (async () => {
+                        try {
+                                const response = await fetchApi("/auth/users")
+                                setAllRequerants(response.result)
+                        }
+                        catch (error) {
+                                console.log(error)
+                        }
+                })()
+        }, [])
 
-        // const deletePersonne = (personne) => {
-        //         console.log(personne)
-        //         if (window.confirm("Voulez vraiment supprimer cette personne?")) {
-        //                 axios.delete(`http://localhost:3000/personne/${personne.ID_PERSONNE}`)
-        //                 setTimeout(() => allData(), 500)
-        //         }
-        // }
-
-        // useEffect(() => {
-        //         allData()
-        // }, [])
         return (
                 <Container fluid>
                         <Row>
@@ -63,13 +55,17 @@ export default function Home() {
                                                         </div>
                                                 </Card.Header>
                                                 <Card.Body>
-                                                        <DataTable paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} tableStyle={{ minWidth: '50rem' }}
+                                                        <DataTable value={allRequerants} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} tableStyle={{ minWidth: '50rem' }}
                                                                 paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
                                                                 currentPageReportTemplate="{first} to {last} of {totalRecords}" >
-                                                                <Column field="name" header="Name" style={{ width: '25%' }}></Column>
-                                                                <Column field="country.name" header="Country" style={{ width: '25%' }}></Column>
-                                                                <Column field="company" header="Company" style={{ width: '25%' }}></Column>
-                                                                <Column field="representative.name" header="Representative" style={{ width: '25%' }}></Column>
+                                                                <Column field="ID_REQUERENT" header="Name" style={{ width: '25%' }}></Column>
+                                                                <Column field="NOM" header="NOM" style={{ width: '25%' }}></Column>
+                                                                <Column field="PRENOM" header="PRENOM" style={{ width: '25%' }}></Column>
+                                                                <Column field="LIEU_NAISSANCE" header="LIEU DE NAISSANCE" style={{ width: '25%' }}></Column>
+                                                                <Column field="NOM_PERE" header="NOM DU PERE" style={{ width: '25%' }}></Column>
+                                                                <Column field="NOM_MERE" header="NOM DE LA MERE" style={{ width: '25%' }}></Column>
+                                                                <Column field="NATIONALITE" header="NATIONALITE" style={{ width: '25%' }}></Column>
+                                                                <Column field="EMAIL" header="EMAIL" style={{ width: '25%' }}></Column>
                                                         </DataTable>
                                                 </Card.Body>
                                         </Card>
