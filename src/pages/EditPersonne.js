@@ -31,6 +31,16 @@ export default function EditPersonne() {
          const handleCloseCommune = () => setOpenCommuneModal(false);
          const handleShowCommune = () => setOpenCommuneModal(true);
 
+          //Select Zone
+          const [openZoneModal, setOpenZoneModal] = useState(false);
+          const handleCloseZone = () => setOpenZoneModal(false);
+          const handleShowZone = () => setOpenZoneModal(true);
+
+          //Select Colline
+          const [openCollineModal, setOpenCollineModal] = useState(false);
+          const handleCloseColline = () => setOpenCollineModal(false);
+          const handleShowColline = () => setOpenCollineModal(true);
+
         const navigate = useNavigate()
 
 
@@ -121,13 +131,13 @@ export default function EditPersonne() {
                                                                 <Form.Label>Commune</Form.Label>
                                                                 <Form.Control type="name" name="commune" placeholder="Tapez votre commune" value={commune} onChange={e => setCommune(e.target.value)} className="form-control" />
                                                         </Form.Group>
-                                                        <Form.Group controlId="formBasicEmail" className="col col-sm-6" onClick={handleShowProvince}>
+                                                        <Form.Group controlId="formBasicEmail" className="col col-sm-6" onClick={handleShowZone}>
                                                                 <Form.Label>Zone</Form.Label>
                                                                 <Form.Control type="name" name="quartier" placeholder="Tapez votre quartier" value={quartier} onChange={e => setQuartier(e.target.value)} className="form-control" />
                                                         </Form.Group>
                                                 </Row>
                                                 <Row className="mb-3">
-                                                        <Form.Group controlId="formBasicEmail" className="col col-sm-6">
+                                                        <Form.Group controlId="formBasicEmail" className="col col-sm-6" onClick={handleShowColline}>
                                                                 <Form.Label>Colline</Form.Label>
                                                                 <Form.Control type="name" name="commune" placeholder="Tapez votre commune" value={commune} onChange={e => setCommune(e.target.value)} className="form-control" />
                                                         </Form.Group>
@@ -174,6 +184,42 @@ export default function EditPersonne() {
                                                 </Modal.Body>
                                                 <Modal.Footer>
                                                         <Button variant="secondary" onClick={handleCloseCommune}>
+                                                                Close Modal
+                                                        </Button>
+                                                </Modal.Footer>
+                                        </Modal>
+
+                                        {/* <!-- Modal Zone --> */}
+                                        <Modal show={openZoneModal} onHide={handleCloseZone}>
+                                                <Modal.Header closeButton>
+                                                        <Modal.Title>Zone</Modal.Title>
+                                                </Modal.Header>
+                                                <Modal.Body>
+                                                        
+                                                        <Button variant="primary" type="submit" block>
+                                                                Valider
+                                                        </Button>
+                                                </Modal.Body>
+                                                <Modal.Footer>
+                                                        <Button variant="secondary" onClick={handleCloseZone}>
+                                                                Close Modal
+                                                        </Button>
+                                                </Modal.Footer>
+                                        </Modal>
+
+                                        {/* <!-- Modal Colline --> */}
+                                        <Modal show={openCollineModal} onHide={handleCloseColline}>
+                                                <Modal.Header closeButton>
+                                                        <Modal.Title>Colline</Modal.Title>
+                                                </Modal.Header>
+                                                <Modal.Body>
+                                                        
+                                                        <Button variant="primary" type="submit" block>
+                                                                Valider
+                                                        </Button>
+                                                </Modal.Body>
+                                                <Modal.Footer>
+                                                        <Button variant="secondary" onClick={handleCloseColline}>
                                                                 Close Modal
                                                         </Button>
                                                 </Modal.Footer>
