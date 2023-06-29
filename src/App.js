@@ -7,6 +7,7 @@ import EditPersonne from './pages/EditPersonne';
 import ModificationPersonne from './pages/ModificationPersonne';
 // import CarteMap from './pages/mapBox/CarteMap';
 import CarteMapPro from './pages/mapBox/CarteMapPro';
+import ListeExamen from './pages/listesExamen/ListeExamen';
 
 
 
@@ -17,6 +18,7 @@ export default function App() {
         <Routes>
           <Route exact path='/' Component={Home} />
           <Route path='/addPersonne' Component={EditPersonne} />
+          <Route path='/listeExo' Component={ListeExamen} />
           <Route path='/update/:id' Component={ModificationPersonne} />
           {/* <Route path='/map' Component={CarteMap}/> */}
           <Route path='/map' Component={CarteMapPro} />

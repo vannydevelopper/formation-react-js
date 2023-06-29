@@ -3,7 +3,7 @@ import "./EditPersonne.css"
 import { Link, useNavigate } from "react-router-dom";
 // import axios from "axios"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Form, InputGroup, Row } from 'react-bootstrap';
+import { Container, Form, InputGroup, Row, Modal, Button } from 'react-bootstrap';
 //theme
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 
@@ -26,125 +26,84 @@ export default function EditPersonne() {
         const [telephone, setTelephone] = useState("")
         const [email, setEmail] = useState("")
 
-        //dropdown Provinces
+
         const [allProvinces, setAllProvinces] = useState([])
         const [selectedProvinces, setSelectedProvinces] = useState(null);
 
-        //dropdown Communes
         const [allCommunes, setAllCommunes] = useState([])
         const [selectedCommunes, setSelectedCommunes] = useState(null);
 
-        //dropdown Zones
         const [allZones, setAllZones] = useState([])
         const [selectedZones, setSelectedZones] = useState(null);
 
-        //dropdown Collines
         const [allCollines, setAllCollines] = useState([])
         const [selectedCollines, setSelectedCollines] = useState(null);
 
-        //dropdown Type de demandes
         const [typesDemandes, setTypesDemandes] = useState([])
         const [selectedTypesDemandes, setSelectedTypesDemandes] = useState(null);
 
-        const [images, setImages] = useState(null);
-        const onImageChange = (event) => {
 
-                if (event.target.files && event.target.files[0]) {
-                        let img = event.target.files[0];
-                        setImages(img)
-                }
-        }
+        //Select Province
+        const [openProvinceModal, setOpenProvinceModal] = useState(false);
+        const handleCloseProvince = () => setOpenProvinceModal(false);
+        // const handleShowProvince = () => setOpenProvinceModal(true);
 
+        //Select Commune
+        const [openCommuneModal, setOpenCommuneModal] = useState(false);
+        const handleCloseCommune = () => setOpenCommuneModal(false);
+        // const handleShowCommune = () => setOpenCommuneModal(true);
 
-        const [imagesCni, setImagesCni] = useState(null);
-        const onImageCniChange = (event) => {
-                if (event.target.files && event.target.files[0]) {
-                        let img = event.target.files[0];
-                        // setImagesCni(URL.createObjectURL(img))
-                        setImagesCni(img)
-                }
-        }
+        //Select Zone
+        const [openZoneModal, setOpenZoneModal] = useState(false);
+        const handleCloseZone = () => setOpenZoneModal(false);
+        // const handleShowZone = () => setOpenZoneModal(true);
 
-
-
+        //Select Colline
+        const [openCollineModal, setOpenCollineModal] = useState(false);
+        const handleCloseColline = () => setOpenCollineModal(false);
+        // const handleShowColline = () => setOpenCollineModal(true);
 
         const navigate = useNavigate()
 
         const handleSubmit = async (e) => {
-                console.log("hello")
-                try {
+                try{
                         e.preventDefault()
-
-                        const form = new FormData()
-                        form.append('NOM', nom)
-                        form.append('PRENOM', prenom)
-                        form.append('DATE_NAISSANCE', date)
-                        form.append('LIEU_NAISSANCE', lieuNaissance)
-                        form.append('NOM_PERE', nomPere)
-                        form.append('NOM_MERE', nomMere)
-                        form.append('NATIONALITE', nationalite)
-                        form.append('CNI', cni)
-                        form.append('TYPE_CNI', 5646)
-                        form.append('STATUS', 1)
-                        form.append('TYPE_DEMANDE_PERMIS', selectedTypesDemandes.ID_TYPE_DEMANDE_PERMIS)
-
-                        form.append('PROVINCE_ID', selectedProvinces.PROVINCE_ID)
-                        form.append('COMMUNE_ID', selectedCommunes.COMMUNE_ID)
-                        form.append('ZONE_ID', selectedZones.ZONE_ID)
-                        form.append('COLLINE_ID', selectedCollines.COLLINE_ID)
-
-                        form.append('EMAIL', email)
-                        form.append('TELEPHONE', telephone)
-                        form.append('PHOTO_PASSPORT', images)
-                        form.append('PHOTOCOPIE_CNI', imagesCni)
-
-                        console.log(form)
-
                         const userData = await fetchApi("/auth/users", {
                                 method: "POST",
-                                body: form
-                        })
-
-
-
-                        // const userData = await fetchApi("/auth/users", {
-                        //         method: "POST",
-                        //         headers: { "Content-Type": "application/json" },
-                        //         body: JSON.stringify({
-                        //                 NOM: nom,
-                        //                 // CODE_REQUERANT: 45,
-                        //                 PRENOM: prenom,
-                        //                 DATE_NAISSANCE: date,
-                        //                 LIEU_NAISSANCE: lieuNaissance,
-                        //                 NOM_PERE: nomPere,
-                        //                 NOM_MERE: nomMere,
-                        //                 NATIONALITE: nationalite,
-                        //                 CNI: cni,
-                        //                 TYPE_CNI: 5646,
-                        //                 STATUS: 1,
-                        //                 // ID_ECOLE_THEORIE,
-                        //                 // ID_ECOLE_PRATIQUE,
-                        //                 // EMPRUNTE_CODE,
-                        //                 // APTITUDE_PHYSIQUE,
-                        //                 TYPE_DEMANDE_PERMIS: selectedTypesDemandes.ID_TYPE_DEMANDE_PERMIS,
-                        //                 // ATTESTATION_PERTE,
-                        //                 // LETTRE_SOUS_COUVERT,
-                        //                 PROVINCE_ID: selectedProvinces.PROVINCE_ID,
-                        //                 COMMUNE_ID: selectedCommunes.COMMUNE_ID,
-                        //                 ZONE_ID: selectedZones.ZONE_ID,
-                        //                 COLLINE_ID: selectedCollines.COLLINE_ID,
-                        //                 EMAIL: email,
-                        //                 TELEPHONE: telephone,
-                        //                 PHOTO_PASSPORT:images,
-                        //                 PHOTOCOPIE_CNI:imagesCni
-                        //         }),
-
-                        // });
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                        NOM: nom,
+                                        // CODE_REQUERANT: 45,
+                                        PRENOM: prenom,
+                                        DATE_NAISSANCE: date,
+                                        LIEU_NAISSANCE: lieuNaissance,
+                                        NOM_PERE: nomPere,
+                                        NOM_MERE: nomMere,
+                                        NATIONALITE: nationalite,
+                                        CNI: cni,
+                                        TYPE_CNI: 5646,
+                                        STATUS: 1,
+                                        // ID_ECOLE_THEORIE,
+                                        // ID_ECOLE_PRATIQUE,
+                                        // EMPRUNTE_CODE,
+                                        // APTITUDE_PHYSIQUE,
+                                        TYPE_DEMANDE_PERMIS: selectedTypesDemandes.ID_TYPE_DEMANDE_PERMIS,
+                                        // ATTESTATION_PERTE,
+                                        // LETTRE_SOUS_COUVERT,
+                                        PROVINCE_ID: selectedProvinces.PROVINCE_ID,
+                                        COMMUNE_ID: selectedCommunes.COMMUNE_ID,
+                                        ZONE_ID: selectedZones.ZONE_ID,
+                                        COLLINE_ID: selectedCollines.COLLINE_ID,
+                                        EMAIL: email,
+                                        TELEPHONE: telephone
+                                }),
+        
+                        });
                         navigate('/')
-                } catch (error) {
+                }catch(error){
                         console.log(error)
                 }
-
+        
         }
 
         useEffect(() => {
@@ -279,18 +238,6 @@ export default function EditPersonne() {
                                                                 <Form.Control type="name" name="province" placeholder="Tapez votre province" value={email} onChange={e => setEmail(e.target.value)} className="form-control" />
                                                         </Form.Group>
                                                 </Row>
-                                                <div>
-                                                        <img src={images} />
-                                                        <h1>Photo passport</h1>
-                                                        <input type="file" name="myImage" onChange={onImageChange} />
-                                                </div>
-
-                                                <div>
-                                                        <img src={imagesCni} />
-                                                        <h1>Photo carte d'identite</h1>
-                                                        <input type="file" name="myImage" onChange={onImageCniChange} />
-                                                </div>
-
                                                 <Form.Label> Types demandes</Form.Label>
                                                 <div className="card flex justify-content-center">
                                                         <Dropdown value={selectedTypesDemandes} onChange={(e) => setSelectedTypesDemandes(e.value)} options={typesDemandes} optionLabel="DESCRIPTION_DEMANDE"
@@ -318,10 +265,9 @@ export default function EditPersonne() {
                                                         <Dropdown value={selectedCollines} onChange={(e) => setSelectedCollines(e.value)} options={allCollines} optionLabel="COLLINE_NAME"
                                                                 placeholder="Select a City" className="w-full md:w-14rem" />
                                                 </div>
-                                                <button type="buttton" className="me-4 btn btn-success btn-lg btn-block">Enregistrer</button>
                                                 <Row className="mb-3">
                                                         <Form.Group controlId="formGridCheckbox" className="col col-sm-6">
-
+                                                                <button type="buttton" className="me-4 btn btn-success btn-lg btn-block">Enregistrer</button>
                                                                 <Link to="/">
                                                                         <button type="submit" className="me-4 btn btn-success btn-lg btn-block">Go back</button>
                                                                 </Link>
@@ -330,6 +276,91 @@ export default function EditPersonne() {
 
 
                                         </form>
+                                        {/* <!-- Modal Province --> */}
+                                        <Modal show={openProvinceModal} onHide={handleCloseProvince}>
+                                                <Modal.Header closeButton>
+                                                        <Modal.Title>Province</Modal.Title>
+                                                </Modal.Header>
+                                                <Modal.Body>
+                                                        {/* <div className="col-md-6">
+                                                                <div className="input-group">
+                                                                        <div className="input-group-prepend">
+                                                                                <label className="input-group-text" for="inputGroupSelect01">Choisir</label>
+                                                                        </div>
+                                                                        <select className="custom-select" value={selectedProvinces} onChange={(e) => onHandleChange(e)} name="PROVINCE_NAME" id="PROVINCE_ID">
+                                                                                {allProvinces.map((option) => {
+                                                                                        return (
+                                                                                                <option key={option.PROVINCE_ID} value={option.PROVINCE_NAME}>
+                                                                                                        {option.PROVINCE_NAME}
+                                                                                                </option>
+                                                                                        );
+                                                                                })}
+
+                                                                        </select>
+                                                                </div>
+
+                                                        </div> */}
+                                                </Modal.Body>
+                                                <Modal.Footer>
+                                                        <Button variant="secondary" onClick={handleCloseProvince}>
+                                                                Close Modal
+                                                        </Button>
+                                                </Modal.Footer>
+                                        </Modal>
+
+                                        {/* <!-- Modal Commune --> */}
+                                        <Modal show={openCommuneModal} onHide={handleCloseCommune}>
+                                                <Modal.Header closeButton>
+                                                        <Modal.Title>Commune</Modal.Title>
+                                                </Modal.Header>
+                                                <Modal.Body>
+
+                                                        <Button variant="primary" type="submit" block>
+                                                                Valider
+                                                        </Button>
+                                                </Modal.Body>
+                                                <Modal.Footer>
+                                                        <Button variant="secondary" onClick={handleCloseCommune}>
+                                                                Close Modal
+                                                        </Button>
+                                                </Modal.Footer>
+                                        </Modal>
+
+                                        {/* <!-- Modal Zone --> */}
+                                        <Modal show={openZoneModal} onHide={handleCloseZone}>
+                                                <Modal.Header closeButton>
+                                                        <Modal.Title>Zone</Modal.Title>
+                                                </Modal.Header>
+                                                <Modal.Body>
+
+                                                        <Button variant="primary" type="submit" block>
+                                                                Valider
+                                                        </Button>
+                                                </Modal.Body>
+                                                <Modal.Footer>
+                                                        <Button variant="secondary" onClick={handleCloseZone}>
+                                                                Close Modal
+                                                        </Button>
+                                                </Modal.Footer>
+                                        </Modal>
+
+                                        {/* <!-- Modal Colline --> */}
+                                        <Modal show={openCollineModal} onHide={handleCloseColline}>
+                                                <Modal.Header closeButton>
+                                                        <Modal.Title>Colline</Modal.Title>
+                                                </Modal.Header>
+                                                <Modal.Body>
+
+                                                        <Button variant="primary" type="submit" block>
+                                                                Valider
+                                                        </Button>
+                                                </Modal.Body>
+                                                <Modal.Footer>
+                                                        <Button variant="secondary" onClick={handleCloseColline}>
+                                                                Close Modal
+                                                        </Button>
+                                                </Modal.Footer>
+                                        </Modal>
                                 </div>
                         </Container>
                 </>
