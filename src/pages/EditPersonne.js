@@ -209,7 +209,6 @@ export default function EditPersonne() {
                                         const response = await fetchApi(`/requerant/identite/collines/${selectedZones.ZONE_ID}`)
                                         setAllCollines(response.result)
                                 }
-
                         }
                         catch (error) {
                                 console.log(error)
